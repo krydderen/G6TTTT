@@ -5,8 +5,8 @@ filename = 'C:/Users/kevmo/OneDrive/Dokumenter/2019/Haust-semesteret/Python/G6/t
 
 # Open the camera
 cap = cv2.VideoCapture(1)
-cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
-cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 while True:
     # Read and display each frame
     ret, img = cap.read()
