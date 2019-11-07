@@ -22,15 +22,15 @@ while True:
     ret, frame = cap.read()
     roi = frame[76:386, 168:484]
 
-    tiles = [roi[0:100, 0:100],
-             roi[0:100, 100:200],
-             roi[0:100, 200:300],
-             roi[100:200, 0:100],
-             roi[100:200, 100:200],
-             roi[100:200, 200:300],
-             roi[200:300, 0:100],
-             roi[200:300, 100:200],
-             roi[200:300, 200:300]]
+    tiles = [roi[0:80, 0:80],
+             roi[0:80, 100:180],
+             roi[0:80, 205:285],
+             roi[100:180, 0:100],
+             roi[100:180, 100:180],
+             roi[100:180, 205:285],
+             roi[200:275, 0:100],
+             roi[200:275, 100:180],
+             roi[200:275, 205:285]]
 
     index = 0
     game_state = ["-", "-", "-", "-", "-", "-", "-", "-", "-"]
@@ -50,17 +50,17 @@ while True:
         if len(contours_blue) > 0:
             game_state[index] = "O"
 
-        # if len(contours_red) > 0:
-        #    print("Red color detected")
+        if len(contours_red) > 0:
+            game_state[index] = "X"
         index += 1
 
     print(game_state)
 
     for comb in win_combinations:
-        if game_state[comb[0]] and game_state[comb[1]] and game_state[comb[2]] == "X":
+        if game_state[comb[0]] == "X" and game_state[comb[1]] == "X" and game_state[comb[2]] == "X":
             print("Player 1 Wins")
 
-        elif game_state[comb[0]] and game_state[comb[1]] and game_state[comb[2]] == "O":
+        elif game_state[comb[0]] == "O" and game_state[comb[1]] == "O" and game_state[comb[2]] == "O":
             print("Player 2 Wins")
         else:
             continue
