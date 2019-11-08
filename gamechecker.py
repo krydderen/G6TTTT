@@ -29,18 +29,18 @@ while True:
 
     # Read the video captured from the camera and set a Region Of Interest
     ret, frame = cap.read()
-    roi = frame[76:386, 168:484]
+    roi = frame[170:330, 275:438]
 
     # Set up 9 Region Of Interests with the 9 tiles of TTT in mind
-    tiles = [roi[0:80, 0:80],
-             roi[0:80, 100:180],
-             roi[0:80, 205:285],
-             roi[100:180, 0:100],
-             roi[100:180, 100:180],
-             roi[100:180, 205:285],
-             roi[200:275, 0:100],
-             roi[200:275, 100:180],
-             roi[200:275, 205:285]]
+    tiles = [roi[0:45, 0:48],
+             roi[0:45, 60:105],
+             roi[0:45, 120:160],
+             roi[55:100, 0:48],
+             roi[55:100, 60:105],
+             roi[55:100, 120:160],
+             roi[115:155, 0:48],
+             roi[115:155, 60:105],
+             roi[115:155, 120:160]]
 
     index = 0
 
@@ -73,7 +73,7 @@ while True:
         index += 1
 
     # Print the current gamestate, used for debugging
-    print(game_state)
+    # print(game_state)
 
     # Check if the current gamestate gives out any winners or a tie
     for comb in win_combinations:
@@ -92,6 +92,10 @@ while True:
 
     # Shows the picture captured and used for calculating winners, tie or scan again
     cv2.imshow("frame", roi)
+
+    stopT = time.time()
+
+    print(stopT-startT)
 
     # An escape key to close the program, button assigned is "ESC
     key = cv2.waitKey(1)
