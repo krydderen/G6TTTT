@@ -1,4 +1,4 @@
-    cv2.imshow("frame", frame)
+
 import cv2
 import numpy as np
 
@@ -7,19 +7,21 @@ cap = cv2.VideoCapture(1)
 while True:
     ret, frame = cap.read()
 
-    roi = frame[90:370, 180:470]
+    roi = frame[170:330, 275:438]
 
-    tiles = [roi[0:80, 0:80],
-             roi[0:80, 100:180],
-             roi[0:80, 205:285],
-             roi[100:180, 0:100],
-             roi[100:180, 100:180],
-             roi[100:180, 205:285],
-             roi[200:275, 0:100],
-             roi[200:275, 100:180],
-             roi[200:275, 205:285]]
+    tiles = [roi[0:45, 0:48],
+             roi[0:45, 60:105],
+             roi[0:45, 120:160],
+             roi[55:100, 0:48],
+             roi[55:100, 60:105],
+             roi[55:100, 120:160],
+             roi[115:155, 0:48],
+             roi[115:155, 60:105],
+             roi[115:155, 120:160]]
 
-    cv2.imshow("frame", roi)
+    res = cv2.resize(roi, None, fx=3, fy=3, interpolation=cv2.INTER_CUBIC)
+
+    cv2.imshow("frame", res)
     cv2.imshow("1", tiles[0])
     cv2.imshow("2", tiles[1])
     cv2.imshow("3", tiles[2])
