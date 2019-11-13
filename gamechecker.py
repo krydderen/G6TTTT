@@ -24,7 +24,7 @@ kernel = np.ones((5, 5), np.uint8)
 win_combinations = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [6, 3, 0], [7, 4, 1], [8, 5, 2], [6, 4, 2], [8, 4, 0]]
 
 while True:
-    # Start a timer for debugging ( Finding out how long it will take for the program to do one cycle )
+    # Start a timer for debugging (Finding out ho+w long it will take for the program to do one cycle)
     startT = time.time()
 
     # Read the video captured from the camera and set a Region Of Interest
@@ -93,8 +93,10 @@ while True:
     # Shows the picture captured and used for calculating winners, tie or scan again
     cv2.imshow("frame", roi)
 
+    # Gets a stop time which we can subtract with the start time to get the total time taken per loop
     stopT = time.time()
 
+    # Prints out the time taken to finish a loop
     print(stopT-startT)
 
     # An escape key to close the program, button assigned is "ESC
@@ -102,6 +104,6 @@ while True:
     if key == 27:
         break
 
-# When ESC is pressed, close the program
+# When ESC is pressed, close the program and destroy all windows.
 cap.release()
 cv2.destroyAllWindows()
