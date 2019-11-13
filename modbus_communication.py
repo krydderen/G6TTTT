@@ -43,7 +43,7 @@ class ModbusClient(object):
         result = self.client.write_registers(address, payload, skip_encode=True, unit=1)
         return result
 
-    def readInt(self, address=141, size=20):
+    def readInt(self, address, size=20):
         """Reads the number of addresses that the size contains.
         The readings start from the given address.
         Return: An array of read values"""
