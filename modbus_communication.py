@@ -10,7 +10,7 @@ class ModbusClient(object):
     Modbus slave. Will be able to read and write
     to all of the available I/O."""
 
-    def __init__(self, ip='192.168.2.17'):
+    def __init__(self, ip='158.38.140.249'):
         self.ip = ip
         self.client = ModbusTcpClient(self.ip)
         self.connection = self.client.connect()
@@ -26,9 +26,10 @@ class ModbusClient(object):
         stored in.
         Return: Result if it was successful or not."""
         builder = BinaryPayloadBuilder(byteorder=Endian.Big)
-        builder.add_32bit_int(value)
+        builder.add_16bit_int(value)
         payload = builder.build()
         result = self.client.write_registers(address, payload, skip_encode=True, unit=1)
+        print(result)
         return result
 
     def sendFloat(self, value, address):
@@ -42,7 +43,7 @@ class ModbusClient(object):
         result = self.client.write_registers(address, payload, skip_encode=True, unit=1)
         return result
 
-    def readInt(self, address=12288, size=20):
+    def readInt(self, address=141, size=20):
         """Reads the number of addresses that the size contains.
         The readings start from the given address.
         Return: An array of read values"""
