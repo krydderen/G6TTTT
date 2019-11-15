@@ -73,7 +73,7 @@ while True:
         index += 1
 
     # Print the current gamestate, used for debugging
-    # print(game_state)
+    print(game_state)
 
     # Check if the current gamestate gives out any winners or a tie
     for comb in win_combinations:
@@ -97,7 +97,7 @@ while True:
     stopT = time.time()
 
     # Prints out the time taken to finish a loop
-    print(stopT-startT)
+    # print(stopT-startT)
 
     # An escape key to close the program, button assigned is "ESC
     key = cv2.waitKey(1)
