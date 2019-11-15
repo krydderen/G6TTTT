@@ -9,7 +9,8 @@ addresses = {
     '0': 140,
     '1': 141,
     '2': 142,
-    'kkk': 148
+    'kkk': 148,
+    'test': 149
 }
 
 # Reset the gamestate for each cycle
@@ -23,18 +24,21 @@ cap = cv2.VideoCapture(0)
 
 # Main loop
 if __name__ == '__main__':
-    number = 1
+
+    # Creating the client
+    client = ModbusClient()
 
     print("client created")
-    while number:
-        print("Client connected.")
-        cmd = input("ENTER CMD\n")
+    print("Client connecting...")
+    while client.isConnected():
+        response = client.readInt(address=addresses['test'], size=1)
+        string = str(response)
+        print(string)
 
-        if str(cmd) == "EXIT":
-            print("Shutting down...")
-            number=0
+        if string == "[5]":
+            print("llmao")
 
-        if str(cmd) == "cam":
+        if string == "[9]":
             while True:
                 # Read the video captured from the camera and set a Region Of Interest
                 ret, frame = cap.read()
@@ -43,7 +47,9 @@ if __name__ == '__main__':
                 cv2.imshow("frame", frame)
 
                 key = cv2.waitKey(100)
-                if key == 27:
+                test = str(client.readInt(address=addresses['test'], size=1))
+
+                if test == "[0]":
                     break
              # When ESC is pressed, close the program and destroy all windows.
             cap.release()

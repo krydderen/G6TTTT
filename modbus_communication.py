@@ -9,7 +9,7 @@ class ModbusClient(object):
     """Establishes a secure connection with the
     Modbus slave. Will be able to read and write
     to all of the available I/O."""
-
+    #158.38.140.249
     def __init__(self, ip='158.38.140.249'):
         self.ip = ip
         self.client = ModbusTcpClient(self.ip)
