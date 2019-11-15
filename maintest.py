@@ -50,9 +50,10 @@ if __name__ == '__main__':
                 test = str(client.readInt(address=addresses['test'], size=1))
 
                 if test == "[0]":
+                    # When ESC is pressed, close the program and destroy all windows.
+                    cap.release()
+                    cv2.destroyAllWindows()
                     break
-             # When ESC is pressed, close the program and destroy all windows.
-            cap.release()
-            cv2.destroyAllWindows()
+
 
 
