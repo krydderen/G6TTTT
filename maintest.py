@@ -19,14 +19,12 @@ game_state = ["-", "-", "-", "-", "-", "-", "-", "-", "-"]
 # Create a list of all possible win combinations
 win_combinations = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [6, 3, 0], [7, 4, 1], [8, 5, 2], [6, 4, 2], [8, 4, 0]]
 
-# Fetch the video captured by the camera
-cap = cv2.VideoCapture(0)
-
 # Main loop
 if __name__ == '__main__':
 
     # Creating the client
     client = ModbusClient()
+    cap = cv2.VideoCapture(0)
 
     print("client created")
     print("Client connecting...")
@@ -50,8 +48,7 @@ if __name__ == '__main__':
                 test = str(client.readInt(address=addresses['test'], size=1))
 
                 if test == "[0]":
-                    # When ESC is pressed, close the program and destroy all windows.
-                    cap.release()
+                    # cap.release()
                     cv2.destroyAllWindows()
                     break
 
