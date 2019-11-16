@@ -21,8 +21,9 @@ class GameChecker(object):
         _, frame = self.cap.read()
 
         # Reset the gamestate for each cycle
-
         game_state = ["-", "-", "-", "-", "-", "-", "-", "-", "-"]
+
+        """Will add the checking of all the tiles here..."""
 
         # Shows the picture captured and used for calculating winners, tie or scan again
         return game_state
@@ -40,7 +41,7 @@ class GameChecker(object):
         cv2.destroyAllWindows()
         return True
 
-# Simple example of usage.
+"""# Simple example of usage.
 if __main__ == '__main__':
     cap = cv2.VideoCapture(0)
     gameChecker = GameChecker(capture=cap, watch=True)
@@ -52,4 +53,4 @@ if __main__ == '__main__':
         key = cv2.waitKey(20) & 0xFF
         if key == 27:
             gameChecker.stop()
-            break
+            break"""

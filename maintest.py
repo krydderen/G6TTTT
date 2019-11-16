@@ -3,6 +3,7 @@ from modbus_communication import ModbusClient
 import time
 import cv2
 import numpy as np
+from gamecheckerTESTER import GameChecker
 
 # Dictionary holding Modbus addresses
 addresses = {
@@ -22,35 +23,39 @@ win_combinations = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [6, 3, 0], [7, 4, 1], [8, 5
 # Main loop
 if __name__ == '__main__':
 
-    # Creating the client
+    # Creating the client and camera capture.
     # client = ModbusClient()
     cap = cv2.VideoCapture(0)
+    game = GameChecker(capture=cap, watch=True)
 
     print("client created")
     print("Client connecting...")
     client = True
     while client:
+        """This is used for testing when I cannot use our
+        robot for testing when I am away from the LAB"""
         string = str(input("enter below\n"))
         print(string)
 
+        """Just a test lmao"""
         if string == "lmao":
             print("epiclmao")
 
+        """ TODO - change this to a statement where
+        if the PLS or the UR3 robot asks for the game status, 
+        send either that someone has won or a tie is found. 
+        If else, send out a signal that implies that the game can'
+        continue untill further notice."""
         if string == "cam":
-            while True:
-                # Read the video captured from the camera and set a Region Of Interest
-                ret, frame = cap.read()
+            print(str(game.getGamestate()))
 
-                # Shows the picture captured and used for calculating winners, tie or scan again
-                cv2.imshow("frame", frame)
-
-                key = cv2.waitKey(100)
-                test = str(client.readInt(address=addresses['test'], size=1))
-
-                if key == "0":
-                    # cap.release()
-                    cv2.destroyAllWindows()
-                    break
-
-
-
+        if string == "check":
+            print()
+            """get and check the current gamestate up towards
+            the winning conditions. This t"""
+        if string == "stop":
+            print("Closing...\nThank you for shutting "
+                  "me down properly\n"
+                  "Good bye :) <3")
+            game.stop()
+            break
