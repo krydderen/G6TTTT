@@ -23,20 +23,20 @@ win_combinations = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [6, 3, 0], [7, 4, 1], [8, 5
 if __name__ == '__main__':
 
     # Creating the client
-    client = ModbusClient()
+    # client = ModbusClient()
     cap = cv2.VideoCapture(0)
 
     print("client created")
     print("Client connecting...")
-    while client.isConnected():
-        response = client.readInt(address=addresses['test'], size=1)
-        string = str(response)
+    client = True
+    while client:
+        string = str(input("enter below\n"))
         print(string)
 
-        if string == "[5]":
-            print("llmao")
+        if string == "lmao":
+            print("epiclmao")
 
-        if string == "[9]":
+        if string == "cam":
             while True:
                 # Read the video captured from the camera and set a Region Of Interest
                 ret, frame = cap.read()
@@ -47,7 +47,7 @@ if __name__ == '__main__':
                 key = cv2.waitKey(100)
                 test = str(client.readInt(address=addresses['test'], size=1))
 
-                if test == "[0]":
+                if key == "0":
                     # cap.release()
                     cv2.destroyAllWindows()
                     break
