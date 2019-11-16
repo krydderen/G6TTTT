@@ -1,3 +1,13 @@
+"""
+Object tracking based on a HSV-mask,
+and will contour out the wanted red
+or blue markers and find its place with
+the 3x3 of Tic Tac Toe in mind.
+
+Code by: Kevin Moen Storvik
+"""
+
+# Importing packages.
 import cv2
 import numpy as np
 import time
@@ -25,7 +35,53 @@ class GameChecker(object):
 
         """Will add the checking of all the tiles here..."""
 
-        # Shows the picture captured and used for calculating winners, tie or scan again
+        # TODO - SCALE DOWN THE FRAME TO FIT WHITEBOARD DIMENSIONS...
+
+        roi = frame[170:330, 275:438]
+
+        # Set up 9 Region Of Interests with the 9 tiles of TTT in mind
+        tiles = [roi[0:45, 0:48],
+                 roi[0:45, 60:105],
+                 roi[0:45, 120:160],
+                 roi[55:100, 0:48],
+                 roi[55:100, 60:105],
+                 roi[55:100, 120:160],
+                 roi[115:155, 0:48],
+                 roi[115:155, 60:105],
+                 roi[115:155, 120:160]]
+
+        INDEX = 0
+
+        for tile in tiles:
+
+            # Convert RGB to HSV
+            hsv = cv2.cvtColor(tile, cv2.COLOR_BGR2HSV)
+
+            # Create the masks
+            blue_mask = cv2.inRange(hsv, self.lower_blue, self.upper_blue)
+            red_mask = cv2.inRange(hsv, self.lower_red, self.upper_red)
+
+            # Enlarge the masks
+            kernel = np.ones((5, 5), np.uint8)
+            dilation_blue = cv2.dilate(blue_mask, kernel)
+            dilation_red = cv2.dilate(red_mask, kernel)
+
+            # Finding the contours
+            contours_blue, hierarchy = cv2.findContours(dilation_blue, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+            contours_red, hierarchy = cv2.findContours(dilation_red, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+            # Mark up only the largest blue contour and draw it.
+            if len(contours_blue) > 0:
+                game_state[INDEX] = "O"
+
+            # Mark up only the largets red contour, and draw it.
+            if len(contours_red) > 0:
+                game_state[INDEX] = "X"
+
+            # For each found contour, increment the INDEX by 1.
+            INDEX += 1
+
+        # Returns the gamestate
         return game_state
 
     @staticmethod
@@ -40,6 +96,7 @@ class GameChecker(object):
         self.cap.release()
         cv2.destroyAllWindows()
         return True
+
 
 """# Simple example of usage.
 if __main__ == '__main__':
