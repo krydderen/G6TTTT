@@ -42,7 +42,7 @@ if __name__ == '__main__':
         string = str(input("enter below\n"))
         print(string)
 
-        """If the EXAMPLE address picks up the int. 1, it means 
+        """If the EXAMPLE addresses picks up the int. 1, it means 
         that the machines are idle and we are now ready to capture 
         the current gamestate. When the gamestate is captured, we then
         take the gamestate and compare them with all the possible 
@@ -95,6 +95,10 @@ if __name__ == '__main__':
                     """ ~ IF NO WINS OR TIE IS FOUND, SEND 0 ~ """
                 else:
                     client.sendInt(address=addresses['exampleSend'], value=0)
+
+
+
+        """ ~ VENTURING FURTHER DOWN THE CODE IS JUST A DEMONSTRATION AND TESTING OF THE KODE ~ """
 
         """Just a test lmao"""
         if string == "lmao":
