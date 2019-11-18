@@ -50,7 +50,7 @@ class GameChecker(object):
                  roi[115:155, 60:105],
                  roi[115:155, 120:160]]
 
-        INDEX = 0
+        index = 0
 
         for tile in tiles:
 
@@ -72,26 +72,26 @@ class GameChecker(object):
 
             # Mark up only the largest blue contour and draw it.
             if len(contours_blue) > 0:
-                game_state[INDEX] = "O"
+                game_state[index] = "O"
 
-            # Mark up only the largets red contour, and draw it.
+            # Mark up only the largest red contour, and draw it.
             if len(contours_red) > 0:
-                game_state[INDEX] = "X"
+                game_state[index] = "X"
 
             # For each found contour, increment the INDEX by 1.
-            INDEX += 1
+            index += 1
 
         # Returns the gamestate
         return game_state
 
     @staticmethod
     def watch(frame):
-        """Works as a debug finctionality if user
+        """Works as a debug functionality if user
          wants to see the frame and mask"""
         cv2.imshow("Frame", frame)
 
     def stop(self):
-        """Releases the calture and close all frames running.
+        """Releases the capture and close all frames running.
         Return. True when everything is closed."""
         self.cap.release()
         cv2.destroyAllWindows()
