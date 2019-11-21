@@ -28,8 +28,8 @@ win_combinations = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [6, 3, 0], [7, 4, 1], [8, 5
 if __name__ == '__main__':
 
     # Creating the client and camera capture.
-    client = ModbusClient()
-    cap = cv2.VideoCapture(0)
+    client = ModbusClient(ip='158.38.140.250')
+    cap = cv2.VideoCapture(1)
     # TODO -  SCALE DOWN THE CAPTURE
 
     game = GameChecker(capture=cap, watch=True)
@@ -57,47 +57,59 @@ if __name__ == '__main__':
 
             # Fetch the game state
             game_state = game.getGamestate()
-
+            wincombo = 0
             # Check if the current gamestate gives out any winners or a tie.
             for comb in win_combinations:
                 # Check for a tie first, if no tie, check if "O" or "X" wins. If neither, continue the game
                 if "-" not in game_state:
                     """ - A DEBUG PRINT - """
-                    print("Nobody wins, game ends in a tie.")
+                    # print("Nobody wins, game ends in a tie.")
 
                     """ - SENDING SIGNAL - """
                     """ ~ THE VALUE HERE IS 9, WHICH MEANS A TIE. ~ """
-                    client.sendInt(address=addresses['win'], value=9)
+                    wincombo = 9
+                   # client.sendInt(address=addresses['win'], value=9)
 
                     # TODO -  PROBABLY HAVE TO HAVE EVERY OF THE EIGHT COMBINATIONS HERE...
                 elif game_state[comb[0]] == "X" and game_state[comb[1]] == "X" and game_state[comb[2]] == "X":
                     """ - A DEBUG PRINT ¯\_(ツ)_/¯ - """
-                    print("Player X wins.")
+                   # print("Player X wins.")
 
                     """ ~ INT WHICH HOLDS WHICH COMBO WON ~ """
-                    wincombo = 0
+                    #wincombo = 0
+
 
                     """ - SENDING SIGNAL - """
                     """ ~ THE VALUE SENT HERE GOES FROM 1-8, WHICH IS WHERE THE WIN WAS FOUND FOR "X" 
                         SO THAT WE CAN GET THE ROBOT TO MARK THE WINNING ROW, COLUMN OR DIAGONAL ~ """
-                    client.sendInt(address=addresses['win'], value=wincombo)
+                    # client.sendInt(address=addresses['win'], value=wincombo)
 
                 elif game_state[comb[0]] == "O" and game_state[comb[1]] == "O" and game_state[comb[2]] == "O":
                     """ - A DEBUG PRINT ¯\_(ツ)_/¯ - """
-                    print("Player O wins.")
+                    #print("Player O wins.")
 
                     """ ~ INT WHICH HOLDS WHICH COMBO WON ~ """
-                    wincombo = 0
+                    #wincombo = 0
 
                     """ - SENDING SIGNAL - """
                     """ ~ THE VALUE SENT HERE GOES FROM 1-8, WHICH IS WHERE THE WIN WAS FOUND FOR "O" 
                         SO THAT WE CAN GET THE ROBOT TO MARK THE WINNING ROW, COLUMN OR DIAGONAL ~ """
-                    client.sendInt(address=addresses['win'], value=wincombo)
+                    # client.sendInt(address=addresses['win'], value=wincombo)
 
                     """ ~ IF NO WINS OR TIE IS FOUND, SEND 0 ~ """
                 else:
-                    client.sendInt(address=addresses['win'], value=0)
+                    wincombo = 0
+                    # client.sendInt(address=addresses['win'], value=0)
+            """ If the winning combination is 9, no one wins... fuck up the board"""
+            if wincombo == 9:
+                print("no one wins, lmao fucktards")
+                """Sending twice to avoid modbusserror coming in our way"""
+                client.sendInt(address=150,value=9)
 
+            # No one has won yet, send 0.
+            elif wincombo == 0:
+                client.sendInt(address=150,value=0)
+                print("go on.. no one has won yet")
 
 
         """ ~ VENTURING FURTHER DOWN THE CODE IS JUST A DEMONSTRATION AND TESTING OF THE KODE ~ """
@@ -111,13 +123,9 @@ if __name__ == '__main__':
         send either that someone has won or a tie is found. 
         If else, send out a signal that implies that the game can'
         continue untill further notice."""
-        if string == "cam":
+        if string == "check":
             print(str(game.getGamestate()))
 
-        if string == "check":
-            print()
-            """get and check the current gamestate up towards
-            the winning conditions. This t"""
         if string == "stop":
             print("Closing...\nThank you for shutting "
                   "me down properly\n"
