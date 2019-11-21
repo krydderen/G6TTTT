@@ -24,14 +24,14 @@ if __name__ == '__main__':
             print("Shutting down...")
             break
 
-        client.sendInt(value=(int(cmd)), address=addresses['pls'])
-        response = client.readInt(address=addresses['pls'], size=1)
+        client.sendInt(value=(int(cmd)), address=addresses['kkk'])
+        response = client.readInt(address=addresses['kkk'], size=1)
         print(response)
 
-    """  time.sleep(1)
-      # Resetting to 0
-      client.sendInt(value=0, address=addresses['kkk'])
-      response = client.readInt(address=addresses['kkk'], size=1)
-      print(response)
-"""
+        time.sleep(1)
+        # Resetting to 0
+        client.sendInt(value=0, address=addresses['kkk'])
+        response = client.readInt(address=addresses['kkk'], size=1)
+        print(response)
+
     client.close()

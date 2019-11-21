@@ -33,7 +33,7 @@ win_combinations = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [6, 3, 0], [7, 4, 1], [8, 5
 if __name__ == '__main__':
 
     # Creating the client and camera capture.
-    client = ModbusClient(ip='158.38.140.249')
+    client = ModbusClient(ip='158.38.140.250')
     cap = cv2.VideoCapture(0)
     # TODO -  SCALE DOWN THE CAPTURE
 
@@ -54,20 +54,38 @@ if __name__ == '__main__':
 
         if string == "test":
             while 1:
-                test = client.readInt(address=31000, size=1)
+                test = client.readInt(address=140, size=1)
                 print(test)
-                if str(test) == "[1]":
+                if str(test) == "[0]":
                     print("HEI KEVIN")
                     break
 
         if string == "spam":
             while 1:
-                 client.sendInt(address=32000,value=1)
+                client.sendInt(address=32000, value=1)
 
+        if string == "fuck":
+            client.sendInt(address=143, value=1)
+            client.sendInt(address=143, value=1)
+            while 1:
+                test = client.readInt(address=142, size=1)
+                print(test)
+                if str(test) == "[0]":
+                   # add = input("type address\n")
+                    number = input("type number\n")
+                    if number == "stop":
+                        break
+                    client.sendInt(address=143, value=int(number))
+                    client.sendInt(address=143, value=int(number))
+
+                else:
+                    print("Machine not idle...")
 
         if string == "send":
-            add = input("address")
+            add = input("address\n")
+            print("Waiting for machine to become idle.\n")
             while 1:
+                print("Machine idle...\n")
                 number = input("type number\n")
 
                 if number == "stop":

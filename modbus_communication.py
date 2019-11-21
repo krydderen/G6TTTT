@@ -10,7 +10,7 @@ class ModbusClient(object):
     Modbus slave. Will be able to read and write
     to all of the available I/O."""
     #158.38.140.249
-    def __init__(self, ip='158.38.140.249'):
+    def __init__(self, ip):
         self.ip = ip
         self.client = ModbusTcpClient(self.ip)
         self.connection = self.client.connect()

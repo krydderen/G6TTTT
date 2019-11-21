@@ -13,7 +13,8 @@ addresses = {
     'kkk': 148,
     'test': 149,
     'exampleRead': 000,
-    'exampleSend': 000
+    'exampleSend': 000,
+    'win': 150
 }
 
 # Reset the gamestate for each cycle
@@ -51,7 +52,8 @@ if __name__ == '__main__':
         that a win combination was found, along with which combination that won,
         signal that it was a tie and nobody won, or that nobody has won yet
         and the game can continue."""
-        if client.readInt(address=addresses['exampleRead'], size=1) == 1:
+       # if client.readInt(address=addresses['exampleRead'], size=1) == 1:
+        if string == "cam":
 
             # Fetch the game state
             game_state = game.getGamestate()
@@ -65,7 +67,7 @@ if __name__ == '__main__':
 
                     """ - SENDING SIGNAL - """
                     """ ~ THE VALUE HERE IS 9, WHICH MEANS A TIE. ~ """
-                    client.sendInt(address=addresses['exampleSend'], value=9)
+                    client.sendInt(address=addresses['win'], value=9)
 
                     # TODO -  PROBABLY HAVE TO HAVE EVERY OF THE EIGHT COMBINATIONS HERE...
                 elif game_state[comb[0]] == "X" and game_state[comb[1]] == "X" and game_state[comb[2]] == "X":
@@ -78,7 +80,7 @@ if __name__ == '__main__':
                     """ - SENDING SIGNAL - """
                     """ ~ THE VALUE SENT HERE GOES FROM 1-8, WHICH IS WHERE THE WIN WAS FOUND FOR "X" 
                         SO THAT WE CAN GET THE ROBOT TO MARK THE WINNING ROW, COLUMN OR DIAGONAL ~ """
-                    client.sendInt(address=addresses['exampleSend'], value=wincombo)
+                    client.sendInt(address=addresses['win'], value=wincombo)
 
                 elif game_state[comb[0]] == "O" and game_state[comb[1]] == "O" and game_state[comb[2]] == "O":
                     """ - A DEBUG PRINT ¯\_(ツ)_/¯ - """
@@ -90,11 +92,11 @@ if __name__ == '__main__':
                     """ - SENDING SIGNAL - """
                     """ ~ THE VALUE SENT HERE GOES FROM 1-8, WHICH IS WHERE THE WIN WAS FOUND FOR "O" 
                         SO THAT WE CAN GET THE ROBOT TO MARK THE WINNING ROW, COLUMN OR DIAGONAL ~ """
-                    client.sendInt(address=addresses['exampleSend'], value=wincombo)
+                    client.sendInt(address=addresses['win'], value=wincombo)
 
                     """ ~ IF NO WINS OR TIE IS FOUND, SEND 0 ~ """
                 else:
-                    client.sendInt(address=addresses['exampleSend'], value=0)
+                    client.sendInt(address=addresses['win'], value=0)
 
 
 
