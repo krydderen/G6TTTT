@@ -66,17 +66,21 @@ if __name__ == '__main__':
 
         if string == "fuck":
             client.sendInt(address=143, value=1)
-            client.sendInt(address=143, value=1)
             while 1:
                 test = client.readInt(address=142, size=1)
                 print(test)
                 if str(test) == "[0]":
-                   # add = input("type address\n")
                     number = input("type number\n")
                     if number == "stop":
                         break
-                    client.sendInt(address=143, value=int(number))
-                    client.sendInt(address=143, value=int(number))
+                    try:
+                         # add = input("type address\n")
+                         if 0 <= int(number) <= 10:
+                             client.sendInt(address=143, value=int(number))
+                         elif (int(number) < 0) or (int(number) > 10):
+                             print("Try again betweeen 0 - 10")
+                    except ValueError:
+                        print("That's not an int!")
 
                 else:
                     print("Machine not idle...")

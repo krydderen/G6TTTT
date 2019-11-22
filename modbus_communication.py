@@ -72,6 +72,19 @@ class ModbusClient(object):
         self.client.close()
         return True
 
+    def wait_feedback(self, address=142):
+        """ Takk Andreas for kodesnutten :)))))"""
+        done = False
+        while not done:
+            response = self.client.read_holding_registers(address, size=1, unit=1)
+
+            print(response.registers)
+            if str(response.registers) == "[0]":
+                done = True
+
+
+
+
 
 # Simple example of usage
 if __name__ == '__main__':

@@ -57,61 +57,45 @@ if __name__ == '__main__':
 
             # Fetch the game state
             game_state = game.getGamestate()
+
+            print(game_state)
+
             wincombo = 0
             # Check if the current gamestate gives out any winners or a tie.
             for comb in win_combinations:
                 # Check for a tie first, if no tie, check if "O" or "X" wins. If neither, continue the game
                 if "-" not in game_state:
-                    """ - A DEBUG PRINT - """
-                    # print("Nobody wins, game ends in a tie.")
-
                     """ - SENDING SIGNAL - """
                     """ ~ THE VALUE HERE IS 9, WHICH MEANS A TIE. ~ """
                     wincombo = 9
-                   # client.sendInt(address=addresses['win'], value=9)
 
                     # TODO -  PROBABLY HAVE TO HAVE EVERY OF THE EIGHT COMBINATIONS HERE...
                 elif game_state[comb[0]] == "X" and game_state[comb[1]] == "X" and game_state[comb[2]] == "X":
-                    """ - A DEBUG PRINT ¯\_(ツ)_/¯ - """
-                   # print("Player X wins.")
-
-                    wincombo = comb
-                    """ ~ INT WHICH HOLDS WHICH COMBO WON ~ """
-                    #wincombo = 0
-
-
-                    """ - SENDING SIGNAL - """
-                    """ ~ THE VALUE SENT HERE GOES FROM 1-8, WHICH IS WHERE THE WIN WAS FOUND FOR "X" 
-                        SO THAT WE CAN GET THE ROBOT TO MARK THE WINNING ROW, COLUMN OR DIAGONAL ~ """
-                    # client.sendInt(address=addresses['win'], value=wincombo)
-
+                    wincombo = (win_combinations.index(comb) + 1)
                 elif game_state[comb[0]] == "O" and game_state[comb[1]] == "O" and game_state[comb[2]] == "O":
-                    """ - A DEBUG PRINT ¯\_(ツ)_/¯ - """
-                    #print("Player O wins.")
+                    wincombo = (win_combinations.index(comb) + 1)
 
-                    """ ~ INT WHICH HOLDS WHICH COMBO WON ~ """
-                    #wincombo = 0
+            print(wincombo)
+            client.sendInt(address=addresses['win'], value=wincombo)
 
-                    """ - SENDING SIGNAL - """
-                    """ ~ THE VALUE SENT HERE GOES FROM 1-8, WHICH IS WHERE THE WIN WAS FOUND FOR "O" 
-                        SO THAT WE CAN GET THE ROBOT TO MARK THE WINNING ROW, COLUMN OR DIAGONAL ~ """
-                    # client.sendInt(address=addresses['win'], value=wincombo)
+            """ Try to send win-combination. """
+            """try:
+                intwin = int(wincombo)
 
-                    """ ~ IF NO WINS OR TIE IS FOUND, SEND 0 ~ """
-                else:
-                    wincombo = 0
-                    # client.sendInt(address=addresses['win'], value=0)
-            """ If the winning combination is 9, no one wins... fuck up the board"""
-            if wincombo == 9:
-                print("no one wins, lmao fucktards")
-                """Sending twice to avoid modbusserror coming in our way"""
-                client.sendInt(address=150,value=9)
+                if intwin == 0:
+                    print(str(intwin) + " was found, continue..")
 
-            # No one has won yet, send 0.
-            elif wincombo == 0:
-                client.sendInt(address=150,value=0)
-                print("go on.. no one has won yet")
+                elif intwin in range(1,8):
+                    print(str(intwin) + " was found, winner decided.")
 
+                elif intwin == 9:
+                    print(str(intwin) + " was found, tie decided.")
+
+                client.sendInt(address=addresses['win'],value=intwin)
+            except ValueError:
+                print("Value out of bounds.")
+
+"""
 
         """ ~ VENTURING FURTHER DOWN THE CODE IS JUST A DEMONSTRATION AND TESTING OF THE KODE ~ """
 

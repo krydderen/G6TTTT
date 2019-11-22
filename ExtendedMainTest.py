@@ -33,7 +33,7 @@ win_combinations = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [6, 3, 0], [7, 4, 1], [8, 5
 if __name__ == '__main__':
 
     # Creating the client and camera capture.
-    client = ModbusClient(ip='158.38.140.63')
+    client = ModbusClient(ip='158.38.140.250')
     cap = cv2.VideoCapture(0)
     # TODO -  SCALE DOWN THE CAPTURE
 

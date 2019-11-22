@@ -81,8 +81,8 @@ class GameChecker(object):
             # For each found contour, increment the INDEX by 1.
             index += 1
 
-        # Returns the gamestate
-        return game_state
+        # Returns the flipped gamestate
+        return np.flip(game_state)
 
     @staticmethod
     def watch(frame):
