@@ -6,12 +6,15 @@ against eachother... like 2 year olds..
 Code by: Kevin Moen Storvik
 """
 from modbus_communication import ModbusClient
+from gamecheckerTESTER import GameChecker
 import random
 import time
 
 array = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
 numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
+
+drawboard = ['2', '5', '6', '10', '11']
 
 UR31 = ModbusClient(ip='158.38.140.249')
 UR32 = ModbusClient(ip='158.38.140.250')
@@ -21,8 +24,18 @@ turn = 0
 players = [UR31, UR32]
 playerstest = ["player1", "player2"]
 
+#game = GameChecker(capture=cap, watch=True)
+
 while True:
 
+    UR31.sendInt(address=143, value=69)
+    UR31.wait_feedback()
+
+    for x in range(len(drawboard)):
+        action = drawboard.pop(0)
+
+        UR31.sendInt(address=141,value=int(action))
+        UR31.wait_feedback_drawboard()
 
     turnstaken = 0
 
@@ -44,4 +57,5 @@ while True:
         player.wait_feedback()
 
     print("Turns taken " + str(turnstaken))
+
     break

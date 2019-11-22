@@ -82,6 +82,17 @@ class ModbusClient(object):
             if str(response.registers) == "[0]":
                 done = True
 
+    def wait_feedback_drawboard(self, address=140):
+        """ Takk Andreas for kodesnutten :)))))"""
+        done = False
+        while not done:
+            response = self.client.read_holding_registers(address, size=1, unit=1)
+
+            print(response.registers)
+            if str(response.registers) == "[0]":
+                done = True
+
+
 
 
 
