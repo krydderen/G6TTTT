@@ -30,6 +30,12 @@ class ModbusClient(object):
         payload = builder.build()
         result = self.client.write_registers(address, payload, skip_encode=True, unit=1)
         print(result)
+
+        """ TESTING """
+        if str(result).startswith("Modbus Error:"):
+            print("Sending again because of error...")
+            result = self.client.write_registers(address, payload, skip_encode=True, unit=1)
+
         return result
 
     def sendFloat(self, value, address):

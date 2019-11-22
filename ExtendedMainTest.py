@@ -33,7 +33,7 @@ win_combinations = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [6, 3, 0], [7, 4, 1], [8, 5
 if __name__ == '__main__':
 
     # Creating the client and camera capture.
-    client = ModbusClient(ip='158.38.140.249')
+    client = ModbusClient(ip='158.38.140.63')
     cap = cv2.VideoCapture(0)
     # TODO -  SCALE DOWN THE CAPTURE
 
@@ -62,7 +62,22 @@ if __name__ == '__main__':
 
         if string == "spam":
             while 1:
-                 client.sendInt(address=32000,value=1)
+                client.sendInt(address=32000, value=1)
+
+
+        """WORKS"""
+        if string == "pls":
+            while 1:
+                address = 32002
+                num = input("Enter number\n")
+
+                if num == "stop":
+                    print("exiting...")
+                    break
+
+                print("sending " + str(num))
+
+                client.sendInt(address=address, value=int(num))
 
 
         if string == "send":

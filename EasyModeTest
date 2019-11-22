@@ -1,0 +1,18 @@
+"""
+Code for easy gamemode in Tic
+Tac Toe where two UR3 robots go
+against eachother... like 2 year olds..
+
+Code by: Kevin Moen Storvik
+"""
+from modbus_communication import ModbusClient
+
+
+array = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+UR31 = ModbusClient(ip='158.38.140.249')
+UR32 = ModbusClient(ip='158.38.140.249')
+
+
+while 1:
+    input()

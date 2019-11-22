@@ -75,6 +75,7 @@ if __name__ == '__main__':
                     """ - A DEBUG PRINT ¯\_(ツ)_/¯ - """
                    # print("Player X wins.")
 
+                    wincombo = comb
                     """ ~ INT WHICH HOLDS WHICH COMBO WON ~ """
                     #wincombo = 0
 
