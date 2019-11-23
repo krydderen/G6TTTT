@@ -4,6 +4,7 @@ Tac Toe where two UR3 robots go
 against eachother... like 2 year olds..
 
 Code by: Kevin Moen Storvik
+Version: 1.0
 """
 from modbus_communication import ModbusClient
 from gamechecker import GameChecker
@@ -28,11 +29,10 @@ if __name__ == '__main__':
     players = [UR31, UR32]
     playerstest = ["player1", "player2"]
 
-    startplayer = random.randint(0, 1) #Decides who starts
+    startplayer = random.randint(0, 1)  # Decides who starts
     turn = startplayer
-    
-    while UR31.isConnected() and UR32.isConnected():
 
+    while UR31.isConnected() and UR32.isConnected():
 
         if not game.cleanBoard():
             UR31.sendInt(address=143, value=69)
