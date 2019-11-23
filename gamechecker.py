@@ -108,7 +108,7 @@ class GameChecker(object):
 
         return wincombo
 
-    def getWinner(self):
+    def didSomeoneWin(self):
 
         win_combinations = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [6, 3, 0], [7, 4, 1], [8, 5, 2], [6, 4, 2], [8, 4, 0]]
 
@@ -123,6 +123,23 @@ class GameChecker(object):
                 winner = True
             elif state[comb[0]] == "O" and state[comb[1]] == "O" and state[comb[2]] == "O":
                 winner = True
+        return winner
+
+    def getWinner(self):
+
+        win_combinations = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [6, 3, 0], [7, 4, 1], [8, 5, 2], [6, 4, 2], [8, 4, 0]]
+
+        state = self.getGamestate()
+
+        print(state)
+        winner = "none"
+        # Check if the current gamestate gives out any winners or a tie.
+        for comb in win_combinations:
+            # Check for a tie first, if no tie, check if "O" or "X" wins. If neither, continue the game
+            if state[comb[0]] == "X" and state[comb[1]] == "X" and state[comb[2]] == "X":
+                winner = "red"
+            elif state[comb[0]] == "O" and state[comb[1]] == "O" and state[comb[2]] == "O":
+                winner = "blue"
         return winner
 
     def cleanBoard(self):

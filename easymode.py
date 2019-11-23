@@ -4,7 +4,7 @@ Tac Toe where two UR3 robots go
 against eachother... like 2 year olds..
 
 Code by: Kevin Moen Storvik
-Version: 1.0
+Version: 1.1
 """
 from modbus_communication import ModbusClient
 from gamechecker import GameChecker
@@ -52,7 +52,7 @@ if __name__ == '__main__':
 
         for x in range(len(numbers)):
 
-            winnerFound = game.getWinner()
+            winnerFound = game.didSomeoneWin()
 
             if winnerFound:
                 print("Winner found.")
@@ -60,7 +60,7 @@ if __name__ == '__main__':
 
             turnstaken += 1
             player = players[turn]
-            turn = (turn + 1) % len(playerstest)
+            turn = (turn + 1) % len(players)
 
             selection = random.randint(0, len(numbers) - 1)
             goner = numbers.pop(selection)
