@@ -91,17 +91,20 @@ class GameChecker(object):
         state = self.getGamestate()
 
         print(state)
-
+        winner = False
         wincombo = 0
         # Check if the current gamestate gives out any winners or a tie.
         for comb in win_combinations:
             # Check for a tie first, if no tie, check if "O" or "X" wins. If neither, continue the game
             if state[comb[0]] == "X" and state[comb[1]] == "X" and state[comb[2]] == "X":
+                winner = True
                 wincombo = (win_combinations.index(comb) + 1)
             elif state[comb[0]] == "O" and state[comb[1]] == "O" and state[comb[2]] == "O":
+                winner = True
                 wincombo = (win_combinations.index(comb) + 1)
-            elif "-" not in state:
-                wincombo = 9
+
+        if not winner:
+            wincombo = 9
 
         return wincombo
 
