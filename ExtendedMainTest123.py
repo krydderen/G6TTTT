@@ -34,7 +34,7 @@ if __name__ == '__main__':
 
     # Creating the client and camera capture.
     client = ModbusClient(ip='158.38.140.249')
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
     # TODO -  SCALE DOWN THE CAPTURE
 
     game = GameChecker(capture=cap, watch=True)

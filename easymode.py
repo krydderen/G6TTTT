@@ -24,11 +24,13 @@ if __name__ == '__main__':
     cap = cv2.VideoCapture(1)
 
     game = GameChecker(capture=cap, watch=True)
-    turn = 0
 
     players = [UR31, UR32]
     playerstest = ["player1", "player2"]
 
+    startplayer = random.randint(0, 1) #Decides who starts
+    turn = startplayer
+    
     while UR31.isConnected() and UR32.isConnected():
 
 
@@ -36,15 +38,26 @@ if __name__ == '__main__':
             UR31.sendInt(address=143, value=69)
             UR31.wait_feedback()
 
-        for x in range(len(drawboard)):
-            action = drawboard.pop(0)
+        UR31.sendInt(address=141, value=20)
+        UR31.wait_feedback_drawboard()
 
+        # For samkjøring seinare...
+        """for x in range(len(drawboard)):
+            action = drawboard.pop(0)
+            time.sleep(0.5)
             UR31.sendInt(address=141, value=int(action))
-            UR31.wait_feedback_drawboard()
+            UR31.wait_feedback_drawboard()"""
 
         turnstaken = 0
 
         for x in range(len(numbers)):
+
+            winnerFound = game.getWinner()
+
+            if winnerFound:
+                print("Winner found.")
+                break
+
             turnstaken += 1
             player = players[turn]
             turn = (turn + 1) % len(playerstest)

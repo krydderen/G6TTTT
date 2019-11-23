@@ -1,5 +1,5 @@
-from modbus_communication import ModbusClient
-
-client = ModbusClient(ip='158.38.140.249')
-
-client.wait_feedback()
+import random
+n = 100
+for _ in range(n):
+    k = random.randint(0, 1) # decide on a k each time the loop runs
+    print(k)
