@@ -3,7 +3,7 @@ from modbus_communication import ModbusClient
 import time
 import cv2
 import numpy as np
-from gamecheckerTESTER import GameChecker
+from gamechecker import GameChecker
 
 # Dictionary holding Modbus addresses
 addresses = {
