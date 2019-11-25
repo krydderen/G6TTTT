@@ -41,9 +41,11 @@ if __name__ == '__main__':
 
             if not game.cleanBoard():
                 UR31.sendInt(address=143, value=69)
+                time.sleep(0.5)
                 UR31.wait_feedback()
 
             UR31.sendInt(address=141, value=20)
+            time.sleep(0.5)
             UR31.wait_feedback_drawboard()
 
             turnstaken = 0
@@ -64,7 +66,7 @@ if __name__ == '__main__':
                 goner = numbers.pop(selection)
                 print(goner)
 
-                print(str(player) + " picks " + goner)
+                print("Player " + str(turn) + " picks " + goner)
 
                 player.sendInt(address=143, value=int(goner))
                 # time.sleep(1)
@@ -81,10 +83,11 @@ if __name__ == '__main__':
                 wincombo = 0
 
             UR32.sendInt(address=150, value=wincombo)
-
+            time.sleep(0.5)
             UR32.wait_feedback_drawboard()
 
             currentWinner = game.getWinner()
+
 
             if currentWinner == "red":
                 currentWins[0] = currentWins[0].__add__(1)
