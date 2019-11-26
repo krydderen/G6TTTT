@@ -13,49 +13,74 @@ import random
 import cv2
 import time
 
+# Idk lmao
 array = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
+# Numbers of what the robots are allowed to pick.
 numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 
 # Main loop
 if __name__ == '__main__':
+
+    # Creates the objects, here our two robots and the video capture
     UR31 = ModbusClient(ip='158.38.140.249')
     UR32 = ModbusClient(ip='158.38.140.250')
     cap = cv2.VideoCapture(1)
 
+    # Creates an instance of GameChecker where we input our capture and
+    # want to watch the feed from the cams.
     game = GameChecker(capture=cap, watch=True)
 
+    # Puts both the robots in a list so we can switch between players later.
     players = [UR31, UR32]
+
     playerstest = ["player1", "player2"]
 
-    currentWins = [0,0]
+    # Current win standings
+    currentWins = [0, 0]
 
+    # Sets how many wins one must have to end the game
     wins = 2
 
+    # Chooses a random player to start the game
     startplayer = random.randint(0, 1)  # Decides who starts
+    # The player who starts gets his turn taken first.
     turn = startplayer
 
     while UR31.isConnected() and UR32.isConnected():
         while 1:
+            # Resets the current fields our robots are allowed to pick.
             numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 
+            # Checks if the board is not clean. If clean, skip this if-sentence.
             if not game.cleanBoard():
+                # Sends an Integer to the UR2 robot, which takes care of wiping the board.
+                # First, we set the value to 0 to ensure that our wiping will commence.
                 UR32.sendInt(address=143, value=0)
+                # Then we sleep for a second. This is necessary because we send and read too quickly
                 time.sleep(1)
+                # Send out our buttwiping signal
                 UR32.sendInt(address=143, value=69)
+                # Sleep again because the code is too fast...
                 time.sleep(1)
+                # Now we wait for feedback. This means that we wait until the robot sets an addresses value to 0.
                 UR32.wait_feedback()
             else:
+                # We get.cleanBoard returned TRUE, and we do not need to clean the board.
                 print("Machine idle and board clean...")
 
-             # making sure our robot is 'reset'
+            # Making sure our robot is 'reset', same as what we did in game.cleanBoard.
             UR31.sendInt(address=141, value=0)
 
-            print("Drawing board.")
-            UR31.sendInt(address=141, value=20)
-            time.sleep(1)
-            UR31.wait_feedback_drawboard()
 
+            print("Drawing board.")
+            # Value 20 is a special command for the easy mode. It
+            UR31.sendInt(address=141, value=20)
+            # Sleep a second because we are too fast.
+            time.sleep(1)
+            # wait_feedback_drawboard() is a special feedback signal that waits for
+            # the first robot to become idle
+            UR31.wait_feedback_drawboard()
 
             turnstaken = 0
 
@@ -75,7 +100,7 @@ if __name__ == '__main__':
                 goner = numbers.pop(selection)
                 print(goner)
 
-                print("Player " + str(turn+1) + " picks " + goner)
+                print("Player " + str(turn + 1) + " picks " + goner)
 
                 player.sendInt(address=143, value=int(goner))
                 time.sleep(1)
@@ -96,7 +121,6 @@ if __name__ == '__main__':
             UR32.wait_feedback_drawboard()
 
             currentWinner = game.getWinner()
-
 
             if currentWinner == "red":
                 currentWins[0] = currentWins[0].__add__(1)

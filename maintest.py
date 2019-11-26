@@ -63,7 +63,7 @@ if __name__ == '__main__':
             print("epiclmao")
 
         if string == "check":
-            print(str(game.getGamestate()))
+            print(str(game.getGamestateXO()))
 
         if string == "clean":
 

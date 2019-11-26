@@ -1,5 +1,6 @@
 from modbus_communication import ModbusClient
 import traceback
+import time
 
 addresses = {
     '1': 32201,
@@ -16,7 +17,9 @@ addresses = {
     'sendingchoice': 32218
 }
 
-state = [2, 2, 2, 1, 1, 1, 2, 2, 2]
+game_state = ["-", "-", "O", "-", "X", "-", "-", "-", "-"]
+""""     1  2  3  4  5  6  7  8  9"""
+state = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 if __name__ == '__main__':
     # SPAM ALEXANDER
@@ -25,15 +28,20 @@ if __name__ == '__main__':
     while alex.isConnected():
         try:
             test = alex.readInt(address=addresses['listen'], size=1)
-            print(str(test))
+            #print(str(test))
+
+            if str(test) == "[0]":
+                print("Alexander won't listen, you sack of wet turd..:(  ('[0]')")
 
             if str(test) == "[1]":
-                print("We in boiss")
+                time.sleep(1)
+                print("Alexander wants to know your location.")
                 # notify that we send shit
                 alex.sendInt(address=addresses['alex'], value=1)
                 loop = 1
                 for i in range(loop):
-                    print("looped " + str(i) + " times...")
+
+                    #print("looped " + str(i) + " times...")
 
                     alex.sendInt(address=addresses['1'], value=state[0])
                     alex.sendInt(address=addresses['2'], value=state[1])
@@ -48,7 +56,86 @@ if __name__ == '__main__':
                 # we done sending shit
                 alex.sendInt(address=addresses['alex'], value=0)
 
+                print("Alexander is not interesed in your wares no more. Disconnect.")
+                time.sleep(3)
+                break
+            if str(test) == "[11]":
+                print("We in boiss")
+                # notify that we send shit
+                alex.sendInt(address=addresses['alex'], value=1)
+                loop = 1
+                for i in range(loop):
+                    print("looped " + str(i) + " times...")
+
+                    if game_state[0] == "X":
+                        alex.sendInt(address=['1'], value=1)
+                    elif game_state[0] == "0":
+                        alex.sendInt(address=['1'], value=2)
+                    elif game_state[0] == "-":
+                        alex.sendInt(address=['1'], value=0)
+
+                    if game_state[0] == "X":
+                        alex.sendInt(address=['2'], value=1)
+                    elif game_state[0] == "0":
+                        alex.sendInt(address=['2'], value=2)
+                    elif game_state[0] == "-":
+                        alex.sendInt(address=['2'], value=0)
+
+                    if game_state[0] == "X":
+                        alex.sendInt(address=['3'], value=1)
+                    elif game_state[0] == "0":
+                        alex.sendInt(address=['3'], value=2)
+                    elif game_state[0] == "-":
+                        alex.sendInt(address=['3'], value=0)
+
+                    if game_state[0] == "X":
+                        alex.sendInt(address=['4'], value=1)
+                    elif game_state[0] == "0":
+                        alex.sendInt(address=['4'], value=2)
+                    elif game_state[0] == "-":
+                        alex.sendInt(address=['4'], value=0)
+
+                    if game_state[0] == "X":
+                        alex.sendInt(address=['5'], value=1)
+                    elif game_state[0] == "0":
+                        alex.sendInt(address=['5'], value=2)
+                    elif game_state[0] == "-":
+                        alex.sendInt(address=['5'], value=0)
+
+                    if game_state[0] == "X":
+                        alex.sendInt(address=['6'], value=1)
+                    elif game_state[0] == "0":
+                        alex.sendInt(address=['6'], value=2)
+                    elif game_state[0] == "-":
+                        alex.sendInt(address=['6'], value=0)
+
+                    if game_state[0] == "X":
+                        alex.sendInt(address=['7'], value=1)
+                    elif game_state[0] == "0":
+                        alex.sendInt(address=['7'], value=2)
+                    elif game_state[0] == "-":
+                        alex.sendInt(address=['7'], value=0)
+
+                    if game_state[0] == "X":
+                        alex.sendInt(address=['8'], value=1)
+                    elif game_state[0] == "0":
+                        alex.sendInt(address=['8'], value=2)
+                    elif game_state[0] == "-":
+                        alex.sendInt(address=['8'], value=0)
+
+                    if game_state[0] == "X":
+                        alex.sendInt(address=['9'], value=1)
+                    elif game_state[0] == "0":
+                        alex.sendInt(address=['9'], value=2)
+                    elif game_state[0] == "-":
+                        alex.sendInt(address=['9'], value=0)
+
+
+                # we done sending shit
+                alex.sendInt(address=addresses['alex'], value=0)
+
                 print("Done sending shit")
+
 
         except Exception as e:
             print("Error: " + str(e))

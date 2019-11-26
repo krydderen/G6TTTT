@@ -35,10 +35,11 @@ if __name__ == '__main__':
 
     # Creating the client and camera capture.
     client = ModbusClient(ip='158.38.140.250')
-    cap = cv2.VideoCapture(1)
+    PLS = ModbusClient(ip='158.38.140.63')
+    #cap = cv2.VideoCapture(1)
     # TODO -  SCALE DOWN THE CAPTURE
 
-    game = GameChecker(capture=cap, watch=True)
+    #game = GameChecker(capture=cap, watch=True)
 
     print("Objects created.")
     print("Client connecting...")
@@ -119,9 +120,15 @@ if __name__ == '__main__':
             If else, send out a signal that implies that the game can'
             continue untill further notice."""
             if string == "q":
-                state = game.cleanBoard()
-                print(str(state))
-
+                #state = game.cleanBoard()
+                try:
+                    start = PLS.readInt(address=207, size=1)
+                    print(str(start))
+                    if str(start) == "[0]":
+                        print("not ready lmao")
+                except Exception as e:
+                    print("Error: " + str(e))
+                    print(traceback.format_exc())
 
             if string == "iyg":
                 print()

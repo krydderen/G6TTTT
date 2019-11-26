@@ -11,80 +11,147 @@ from gamechecker import GameChecker
 import random
 import cv2
 import time
+import traceback
 
-array = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-
+addresses = {
+    '1': 32201,
+    '2': 32202,
+    '3': 32203,
+    '4': 32204,
+    '5': 32205,
+    '6': 32206,
+    '7': 32207,
+    '8': 32208,
+    '9': 32209,
+    'alex': 32217,
+    'listen': 201,
+    'sendingchoice': 32218
+}
 numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 
 drawboard = ['2', '5', '6', '10', '11']
 
 # Main loop
 if __name__ == '__main__':
-    UR31 = ModbusClient(ip='158.38.140.249')
-    UR32 = ModbusClient(ip='158.38.140.250')
+    
+    PLS = ModbusClient(ip='158.38.140.63')
+
     cap = cv2.VideoCapture(1)
 
-    game = GameChecker(capture=cap, watch=True)
+    game = GameChecker(capture=cap, watch=False)
 
-    players = [UR31, UR32]
     playerstest = ["player1", "player2"]
 
-    startplayer = random.randint(0, 1)  # Decides who starts
-    turn = startplayer
+    while PLS.isConnected():
+        try:
+            start = PLS.readInt(address=207, size=1)
+            print(str(start))
+            if str(start) == "[1]":
+                # Turns starts at 0
+                turn = 0
+                # Give system time to respond
+                time.sleep(3)
+                # PLS.wait_feedback_pls(address=208, wantedAnswer="[]")
+                turnstaken = 0
 
-    while UR31.isConnected() and UR32.isConnected():
-        clean = game.cleanBoard()
+                clean = game.cleanBoard()
 
-        if not clean:
-            UR32.sendInt(address=143, value=0)
-            time.sleep(1)
-            UR32.sendInt(address=143, value=69)
-            time.sleep(1)
-            UR32.wait_feedback()
-        else:
-            print("Machine idle and board clean...")
+                if not clean:
+                    print("Wash please.")
+                    time.sleep(1)
+                    PLS.sendInt(address=32221, value=0)
+                    time.sleep(1)
 
-        # making sure our robot is 'reset'
-        UR31.sendInt(address=141, value=0)
+                else:
+                    print("Board clean.")
+                    time.sleep(1)
+                    PLS.sendInt(address=32221, value=1)
+                    time.sleep(1)
 
-        print("Drawing board.")
-        UR31.sendInt(address=141, value=20)
-        time.sleep(1)
-        UR31.wait_feedback_drawboard()
+                # Checks who has their turn
+                p1 = PLS.readInt(address=125, size=1)
+                p2 = PLS.readInt(address=126, size=1)
 
-        turnstaken = 0
+                # Probably a dumb if..
+                if str(p1) == "[1]" or str(p2) == "[1]":
+                    # P1 has their turn
+                    if str(p1) == "[1]":
+                        turn = 0
+                    # P2 has their turn
+                    elif str(p2) == "[1]":
+                        turn = 1
 
-        for x in range(len(numbers)):
+                for x in range(len(numbers)):
+                    # Start scan
+                    PLS.wait_feedback_pls(address=201, wantedAnswer="[1]")
 
-            winnerFound = game.didSomeoneWin()
+                    state = game.getGamestate12()
 
-            if winnerFound:
-                print("Winner found.")
+                    winnerFound = game.didSomeoneWin()
+
+                    if winnerFound:
+                        print("Winner found.")
+                        break
+
+                    # For each turn, add 1
+                    turnstaken += 1
+
+                    # should swap players
+                    turn = (turn + 1) % 2  # 2 players
+
+                    if len(numbers) > 0:
+                        # Get the random magic field number.
+                        selection = random.randint(0, len(numbers) - 1)
+                        goner = numbers.pop(selection)
+                        # Debugging print
+                        print(goner)
+
+                    else:
+                        print("No more fields left...")
+                        PLS.sendInt(address=32218, value=0)  # Because there is no alternatives left.
+                        break
+
+                    # Might not work?
+                    print("Player " + str(turn) + " picks " + goner)
+
+                    # Send designated value to ALEXANDER
+                    PLS.sendInt(address=32218, value=int(goner))
+
+                    # Send board status.
+                    PLS.sendInt(address=addresses['1'], value=state[0])
+                    PLS.sendInt(address=addresses['2'], value=state[1])
+                    PLS.sendInt(address=addresses['3'], value=state[2])
+                    PLS.sendInt(address=addresses['4'], value=state[3])
+                    PLS.sendInt(address=addresses['5'], value=state[4])
+                    PLS.sendInt(address=addresses['6'], value=state[5])
+                    PLS.sendInt(address=addresses['7'], value=state[6])
+                    PLS.sendInt(address=addresses['8'], value=state[7])
+                    PLS.sendInt(address=addresses['9'], value=state[8])
+
+                    # Warn Alexander that we are done sending the drugs
+                    PLS.sendInt(address=32217, value=1)  # BOOL
+                    time.sleep(1)
+
+                print("Turns taken " + str(turnstaken))
+
+                # WHO WON
+                winner = game.getWinner()
+                if winner == "red":
+                    PLS.sendInt(address=32219, value=1)
+                elif winner == "blue":
+                    PLS.sendInt(address=32219, value=2)
+                elif winner == "none":
+                    PLS.sendInt(address=32219, value=0)
+
+                # SEND WIN COMBO TO ALEXANDER HAMILTON
+                wincombo = game.getWinCombo()
+                print(wincombo)
+                PLS.sendInt(address=32220, value=wincombo)
+                time.sleep(1)
                 break
 
-            turnstaken += 1
-            player = players[turn]
-            turn = (turn + 1) % len(players)
-
-            selection = random.randint(0, len(numbers) - 1)
-            goner = numbers.pop(selection)
-            print(goner)
-
-            print(str(player) + " picks " + goner)
-
-            player.sendInt(address=143, value=int(goner))
-            time.sleep(1)
-            player.wait_feedback()
-
-        print("Turns taken " + str(turnstaken))
-
-        wincombo = game.getWinCombo()
-
-        print(wincombo)
-
-        UR32.sendInt(address=150, value=wincombo)
-        time.sleep(1)
-        break
-    game.stop()
-    UR31.close()
-    UR32.close()
+            elif start == "[0]":
+                print("not ready..")
+        except Exception as e:
+            print("Error: " + str(e))
+            print(traceback.format_exc())

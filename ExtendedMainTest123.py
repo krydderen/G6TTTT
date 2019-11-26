@@ -103,7 +103,7 @@ if __name__ == '__main__':
         If else, send out a signal that implies that the game can'
         continue untill further notice."""
         if string == "cam":
-            print(str(game.getGamestate()))
+            print(str(game.getGamestateXO()))
 
         if string == "check":
             print()
