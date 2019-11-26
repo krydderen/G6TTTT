@@ -170,9 +170,10 @@ class GameChecker(object):
             CLEAN = False
 
         # Mark up only the largest red contour, and draw it.
-        if len(contours_red) > 0:
+        elif len(contours_red) > 0:
             CLEAN = False
 
+        print("Is the board clean? " + str(CLEAN))
         return CLEAN
 
     @staticmethod

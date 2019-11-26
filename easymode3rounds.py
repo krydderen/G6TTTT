@@ -40,18 +40,27 @@ if __name__ == '__main__':
             numbers = ['1', '2', '3', '4', '5', '6', '7', '8', '9']
 
             if not game.cleanBoard():
-                UR31.sendInt(address=143, value=69)
-                time.sleep(0.5)
-                UR31.wait_feedback()
+                UR32.sendInt(address=143, value=0)
+                time.sleep(1)
+                UR32.sendInt(address=143, value=69)
+                time.sleep(1)
+                UR32.wait_feedback()
+            else:
+                print("Machine idle and board clean...")
 
+             # making sure our robot is 'reset'
+            UR31.sendInt(address=141, value=0)
+
+            print("Drawing board.")
             UR31.sendInt(address=141, value=20)
-            time.sleep(0.5)
+            time.sleep(1)
             UR31.wait_feedback_drawboard()
+
 
             turnstaken = 0
 
             for x in range(len(numbers)):
-
+                time.sleep(1)
                 winnerFound = game.didSomeoneWin()
 
                 if winnerFound:
@@ -66,10 +75,10 @@ if __name__ == '__main__':
                 goner = numbers.pop(selection)
                 print(goner)
 
-                print("Player " + str(turn) + " picks " + goner)
+                print("Player " + str(turn+1) + " picks " + goner)
 
                 player.sendInt(address=143, value=int(goner))
-                # time.sleep(1)
+                time.sleep(1)
                 player.wait_feedback()
 
             print("Turns taken " + str(turnstaken))
@@ -83,7 +92,7 @@ if __name__ == '__main__':
                 wincombo = 0
 
             UR32.sendInt(address=150, value=wincombo)
-            time.sleep(0.5)
+            time.sleep(1)
             UR32.wait_feedback_drawboard()
 
             currentWinner = game.getWinner()

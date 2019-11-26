@@ -65,9 +65,10 @@ if __name__ == '__main__':
                 client.sendInt(address=32000, value=1)
 
         if string == "fuck":
-            client.sendInt(address=143, value=1)
+            client.sendInt(address=141, value=0)
             while 1:
-                test = client.readInt(address=142, size=1)
+                time.sleep(1)
+                test = client.readInt(address=140, size=1)
                 print(test)
                 if str(test) == "[0]":
                     number = input("type number\n")
@@ -75,8 +76,8 @@ if __name__ == '__main__':
                         break
                     try:
                          # add = input("type address\n")
-                         if 0 <= int(number) <= 10:
-                             client.sendInt(address=143, value=int(number))
+                         if 0 <= int(number) <= 20:
+                             client.sendInt(address=141, value=int(number))
                          elif (int(number) < 0) or (int(number) > 10):
                              print("Try again betweeen 0 - 10")
                     except ValueError:

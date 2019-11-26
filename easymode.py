@@ -33,20 +33,24 @@ if __name__ == '__main__':
     turn = startplayer
 
     while UR31.isConnected() and UR32.isConnected():
+        clean = game.cleanBoard()
 
-        if not game.cleanBoard():
-            UR31.sendInt(address=143, value=69)
-            UR31.wait_feedback()
+        if not clean:
+            UR32.sendInt(address=143, value=0)
+            time.sleep(1)
+            UR32.sendInt(address=143, value=69)
+            time.sleep(1)
+            UR32.wait_feedback()
+        else:
+            print("Machine idle and board clean...")
 
+        # making sure our robot is 'reset'
+        UR31.sendInt(address=141, value=0)
+
+        print("Drawing board.")
         UR31.sendInt(address=141, value=20)
+        time.sleep(1)
         UR31.wait_feedback_drawboard()
-
-        # For samkjøring seinare...
-        """for x in range(len(drawboard)):
-            action = drawboard.pop(0)
-            time.sleep(0.5)
-            UR31.sendInt(address=141, value=int(action))
-            UR31.wait_feedback_drawboard()"""
 
         turnstaken = 0
 
@@ -69,7 +73,7 @@ if __name__ == '__main__':
             print(str(player) + " picks " + goner)
 
             player.sendInt(address=143, value=int(goner))
-            # time.sleep(1)
+            time.sleep(1)
             player.wait_feedback()
 
         print("Turns taken " + str(turnstaken))
@@ -79,6 +83,7 @@ if __name__ == '__main__':
         print(wincombo)
 
         UR32.sendInt(address=150, value=wincombo)
+        time.sleep(1)
         break
     game.stop()
     UR31.close()
