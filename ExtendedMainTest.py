@@ -120,15 +120,27 @@ if __name__ == '__main__':
             If else, send out a signal that implies that the game can'
             continue untill further notice."""
             if string == "q":
-                #state = game.cleanBoard()
-                try:
-                    start = PLS.readInt(address=207, size=1)
-                    print(str(start))
-                    if str(start) == "[0]":
-                        print("not ready lmao")
-                except Exception as e:
-                    print("Error: " + str(e))
-                    print(traceback.format_exc())
+
+                while 1:
+                    try:
+                        time.sleep(1)
+                        testread = client.readInt(address=140, size=1)
+                        print(testread)
+
+                        if str(testread) == "[0]":
+                            number = input("type number\n")
+                            if number == "stop":
+                                break
+                            try:
+                                client.sendInt(address=141, value=int(number))
+                            except Exception as e:
+                                print("Error: " + str(e))
+                                print(traceback.format_exc())
+                        else:
+                            print("Machine not idle...")
+                    except Exception as e:
+                        print("Error: " + str(e))
+                        print(traceback.format_exc())
 
             if string == "iyg":
                 print()

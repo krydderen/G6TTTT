@@ -4,6 +4,7 @@ import time
 import cv2
 import numpy as np
 from gamechecker import GameChecker
+import traceback
 
 # Dictionary holding Modbus addresses
 addresses = {
@@ -34,10 +35,10 @@ if __name__ == '__main__':
 
     # Creating the client and camera capture.
     client = ModbusClient(ip='158.38.140.249')
-    cap = cv2.VideoCapture(1)
+    #cap = cv2.VideoCapture(1)
     # TODO -  SCALE DOWN THE CAPTURE
 
-    game = GameChecker(capture=cap, watch=True)
+    #game = GameChecker(capture=cap, watch=True)
 
     print("Objects created.")
     print("Client connecting...")
@@ -86,6 +87,29 @@ if __name__ == '__main__':
                 else:
                     print("Machine not idle...")
 
+        if string == "q":
+
+            while 1:
+                try:
+                    time.sleep(1)
+                    testread = client.readInt(address=140, size=1)
+                    print(testread)
+
+                    if str(testread) == "[0]":
+                        number = input("type number\n")
+                        if number == "stop":
+                            break
+                        try:
+                            client.sendInt(address=141, value=int(number))
+                        except Exception as e:
+                            print("Error: " + str(e))
+                            print(traceback.format_exc())
+                    else:
+                        print("Machine not idle...")
+                except Exception as e:
+                    print("Error: " + str(e))
+                    print(traceback.format_exc())
+
         if string == "send":
             add = input("address\n")
             print("Waiting for machine to become idle.\n")
@@ -102,8 +126,8 @@ if __name__ == '__main__':
         send either that someone has won or a tie is found. 
         If else, send out a signal that implies that the game can'
         continue untill further notice."""
-        if string == "cam":
-            print(str(game.getGamestateXO()))
+       # if string == "cam":
+            #print(str(game.getGamestateXO()))
 
         if string == "check":
             print()
@@ -113,5 +137,5 @@ if __name__ == '__main__':
             print("Closing...\nThank you for shutting "
                   "me down properly\n"
                   "Good bye :) <3")
-            game.stop()
+            #game.stop()
             break

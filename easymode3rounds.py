@@ -80,6 +80,8 @@ if __name__ == '__main__':
             time.sleep(1)
             # wait_feedback_drawboard() is a special feedback signal that waits for
             # the first robot to become idle
+            print("Waiting for board to become drawn...\n")
+            time.sleep(2)
             UR31.wait_feedback_drawboard()
 
             turnstaken = 0
@@ -103,6 +105,7 @@ if __name__ == '__main__':
                 print("Player " + str(turn + 1) + " picks " + goner)
 
                 player.sendInt(address=143, value=int(goner))
+                print("Waiting for " + str(turn + 1) + " to become idle...\n" )
                 time.sleep(1)
                 player.wait_feedback()
 
