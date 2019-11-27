@@ -20,7 +20,8 @@ addresses = {
 # Dictionary holding Modbus IP addresses
 ipaddresses = {
     'UR3.1': '158.38.140.249',
-    'PLS': '158.38.140.63'
+    'PLS': '158.38.140.63',
+    'UR3.1': '158.38.140.250'
 }
 
 # Reset the gamestate for each cycle
@@ -91,7 +92,7 @@ if __name__ == '__main__':
 
             while 1:
                 try:
-                    time.sleep(1)
+                    time.sleep(2)
                     testread = client.readInt(address=140, size=1)
                     print(testread)
 

@@ -46,7 +46,7 @@ if __name__ == '__main__':
 
         # making sure our robot is 'reset'
         UR31.sendInt(address=141, value=0)
-
+        time.sleep(1)
         print("Drawing board.")
         UR31.sendInt(address=141, value=20)
         time.sleep(1)
