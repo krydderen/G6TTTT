@@ -88,7 +88,6 @@ if __name__ == '__main__':
                         # P2 has their turn
                         elif str(p2) == "[1]":
                             turn = 1
-                    
 
                     for x in range(len(numbers)):
                         # Start scan
@@ -110,7 +109,6 @@ if __name__ == '__main__':
                         # should swap players
                         turn = (turn + 1) % 2  # 2 players
 
-                        #
                         if len(numbers) > 0:
                             # Get the random magic field number.
                             selection = random.randint(0, len(numbers) - 1)
@@ -126,22 +124,33 @@ if __name__ == '__main__':
 
                         # Send designated value to ALEXANDER
                         PLS.sendInt(address=32218, value=int(goner))
+                        print("Sent designated value to ALEXANDER\n")
 
                         # Send board status.
                         PLS.sendInt(address=addresses['1'], value=state[0])
+                        print("Sending first tile...")
                         PLS.sendInt(address=addresses['2'], value=state[1])
+                        print("Sending second tile...")
                         PLS.sendInt(address=addresses['3'], value=state[2])
+                        print("Sending third tile...")
                         PLS.sendInt(address=addresses['4'], value=state[3])
+                        print("Sending fourth tile...")
                         PLS.sendInt(address=addresses['5'], value=state[4])
+                        print("Sending fifth tile...")
                         PLS.sendInt(address=addresses['6'], value=state[5])
+                        print("Sending sixth tile...")
                         PLS.sendInt(address=addresses['7'], value=state[6])
+                        print("Sending seventh tile...")
                         PLS.sendInt(address=addresses['8'], value=state[7])
+                        print("Sending 8th tile...")
                         PLS.sendInt(address=addresses['9'], value=state[8])
+                        print("Sending 9th tile...")
 
                         # Warn Alexander that we are done sending the drugs
+
                         PLS.sendInt(address=32217, value=1)  # BOOL
-                        print("Done sending...")
-                        time.sleep(6)
+                        print("Done sending...\n")
+                        time.sleep(4)
 
                     print("Turns taken " + str(turnstaken))
 

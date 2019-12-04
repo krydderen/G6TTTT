@@ -97,11 +97,15 @@ class ModbusClient(object):
         """ Takk Andreas for kodesnutten :)))))"""
         done = False
         while not done:
-            response = self.client.read_holding_registers(address, size=1, unit=1)
+            try:
+                response = self.client.read_holding_registers(address, size=1, unit=1)
 
-            print(response.registers)
-            if str(response.registers) == str(wantedAnswer):
-                done = True
+                print(response.registers)
+                if str(response.registers) == str(wantedAnswer):
+                    done = True
+            except Exception as e:
+                print("Exception found, but we yeeeeeeeet it away")
+                continue
 
 
 
