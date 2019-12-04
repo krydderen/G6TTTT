@@ -49,12 +49,8 @@ if __name__ == '__main__':
                 print(str(start))
 
                 while str(start) == "[1]":
-                    # Turns starts at 0
-                    turn = 0
                     # Give system time to respond
                     time.sleep(0)
-                    # PLS.wait_feedback_pls(address=208, wantedAnswer="[]")
-                    turnstaken = 0
 
                     clean = game.cleanBoard()
 
@@ -76,7 +72,6 @@ if __name__ == '__main__':
                         print("warned that it is clean")
                         time.sleep(1)
 
-
                     for x in range(len(numbers)):
                         # Start scan
                         PLS.wait_feedback_pls(address=201, wantedAnswer="[1]")
@@ -90,12 +85,6 @@ if __name__ == '__main__':
                         if winnerFound:
                             print("Winner found.")
                             break
-
-                        # For each turn, add 1
-                        turnstaken += 1
-
-                        # should swap players
-                        turn = (turn + 1) % 2  # 2 players
 
                         if len(numbers) > 0:
                             # Get the random magic field number.
@@ -138,9 +127,8 @@ if __name__ == '__main__':
 
                         PLS.sendInt(address=32217, value=1)  # BOOL
                         print("Done sending...\n")
-                        time.sleep(4)
+                        time.sleep(0)
 
-                    print("Turns taken " + str(turnstaken))
 
                     # WHO WON
                     winner = game.getWinner()
