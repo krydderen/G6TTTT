@@ -76,18 +76,6 @@ if __name__ == '__main__':
                         print("warned that it is clean")
                         time.sleep(1)
 
-                    # Checks who has their turn
-                    p1 = PLS.readInt(address=125, size=1)
-                    p2 = PLS.readInt(address=126, size=1)
-
-                    # Probably a dumb if..
-                    if str(p1) == "[1]" or str(p2) == "[1]":
-                        # P1 has their turn
-                        if str(p1) == "[1]":
-                            turn = 0
-                        # P2 has their turn
-                        elif str(p2) == "[1]":
-                            turn = 1
 
                     for x in range(len(numbers)):
                         # Start scan
