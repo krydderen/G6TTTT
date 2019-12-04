@@ -1,4 +1,3 @@
-from XOto012 import translate
 from gamechecker import GameChecker
 import cv2
 

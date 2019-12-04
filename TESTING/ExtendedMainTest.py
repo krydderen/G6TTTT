@@ -36,10 +36,10 @@ if __name__ == '__main__':
     # Creating the client and camera capture.
     client = ModbusClient(ip='158.38.140.250')
     PLS = ModbusClient(ip='158.38.140.63')
-    #cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(1)
     # TODO -  SCALE DOWN THE CAPTURE
 
-    #game = GameChecker(capture=cap, watch=True)
+    game = GameChecker(capture=cap, watch=False)
 
     print("Objects created.")
     print("Client connecting...")

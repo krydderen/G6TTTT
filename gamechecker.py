@@ -5,6 +5,7 @@ or blue markers and find its place with
 the 3x3 of Tic Tac Toe in mind.
 
 Code by: Kevin Moen Storvik
+Version: 1.5
 """
 
 # Importing packages.
@@ -31,23 +32,19 @@ class GameChecker(object):
         _, frame = self.cap.read()
         # Reset the gamestate for each cycle
         game_state = ["-", "-", "-", "-", "-", "-", "-", "-", "-"]
-
-        """Will add the checking of all the tiles here..."""
-
-        # TODO - SCALE DOWN THE FRAME TO FIT WHITEBOARD DIMENSIONS...
-
+        # Set up 9 Region Of Interests with the 9 tiles of TTT in mind
         roi = frame[170:330, 275:438]
 
         # Set up 9 Region Of Interests with the 9 tiles of TTT in mind
         tiles = [roi[0:42, 0:48],
                  roi[0:42, 60:105],
                  roi[0:42, 120:160],
-                 roi[55:100, 0:48],
-                 roi[55:100, 60:105],
-                 roi[55:100, 120:160],
-                 roi[115:155, 0:45],
-                 roi[115:155, 60:105],
-                 roi[115:155, 120:160]]
+                 roi[55:95, 0:48],
+                 roi[55:95, 60:105],
+                 roi[55:95, 120:160],
+                 roi[120:155, 0:45],
+                 roi[120:155, 60:105],
+                 roi[120:155, 120:160]]
 
         index = 0
 
@@ -88,24 +85,20 @@ class GameChecker(object):
         """Find and return the current gamestate"""
         _, frame = self.cap.read()
         # Reset the gamestate for each cycle
-        game_state = [0,0,0,0,0,0,0,0,0]
-
-        """Will add the checking of all the tiles here..."""
-
-        # TODO - SCALE DOWN THE FRAME TO FIT WHITEBOARD DIMENSIONS...
-
+        game_state = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        # Create the region of interest
         roi = frame[170:330, 275:438]
 
         # Set up 9 Region Of Interests with the 9 tiles of TTT in mind
         tiles = [roi[0:42, 0:48],
                  roi[0:42, 60:105],
                  roi[0:42, 120:160],
-                 roi[55:100, 0:48],
-                 roi[55:100, 60:105],
-                 roi[55:100, 120:160],
-                 roi[115:155, 0:45],
-                 roi[115:155, 60:105],
-                 roi[115:155, 120:160]]
+                 roi[55:95, 0:48],
+                 roi[55:95, 60:105],
+                 roi[55:95, 120:160],
+                 roi[120:155, 0:45],
+                 roi[120:155, 60:105],
+                 roi[120:155, 120:160]]
 
         index = 0
 
@@ -141,7 +134,6 @@ class GameChecker(object):
         # self.watch(frame,dilation_blue,dilation_red)
         # Returns the flipped gamestate
         return np.flip(game_state)
-
 
     def getWinCombo(self):
 
@@ -235,6 +227,32 @@ class GameChecker(object):
         print("Is the board clean? " + str(CLEAN))
         return CLEAN
 
+
+    def returnRemainingFields(self):
+        """Returns the remainder of fields left after
+            a board scan. This is used in the game modes
+            to determine whether the fields are avaiable
+            or not"""
+
+        # Gets the fields
+        fields = self.getGamestate12()
+        index = 0
+
+        # Available fields
+        left = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        for elem in fields:
+            if int(elem) != 0:
+                # Remove taken field from available fields
+                left.pop(index)
+            else:
+                index += 1
+        # Return the remaining fields.
+
+        if str(np.array(left)) == "[]":
+            left = [0]
+
+        return left
+
     @staticmethod
     def watch(frame, dil_red, dil_blue):
         """Works as a debug functionality if user
@@ -243,7 +261,6 @@ class GameChecker(object):
         cv2.imshow("Frame", frame)
         cv2.imshow("Dilation Red", dil_red)
         cv2.imshow("Dilation Blue", dil_blue)
-
 
     def stop(self):
         """Releases the capture and close all frames running.

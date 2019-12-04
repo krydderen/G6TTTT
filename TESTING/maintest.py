@@ -28,7 +28,7 @@ win_combinations = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [6, 3, 0], [7, 4, 1], [8, 5
 if __name__ == '__main__':
 
     # Creating the client and camera capture.
-    client = ModbusClient(ip='158.38.140.250')
+    #client = ModbusClient(ip='158.38.140.250')
     cap = cv2.VideoCapture(1)
     # TODO -  SCALE DOWN THE CAPTURE
 
@@ -36,31 +36,17 @@ if __name__ == '__main__':
 
     print("Objects created.")
     print("Client connecting...")
-    while client.isConnected():
+    while 1:
 
         """This is used for testing when I cannot use our
         robot for testing when I am away from the LAB"""
         string = str(input("enter below\n"))
         print(string)
 
-        """If the EXAMPLE addresses picks up the int. 1, it means 
-        that the machines are idle and we are now ready to capture 
-        the current gamestate. When the gamestate is captured, we then
-        take the gamestate and compare them with all the possible 
-        winning combinations in a 3x3 tic tac toe game. When this is done,
-        we can send out an int to the PLS or UR3 robot where we either signal
-        that a win combination was found, along with which combination that won,
-        signal that it was a tie and nobody won, or that nobody has won yet
-        and the game can continue."""
-        # if client.readInt(address=addresses['exampleRead'], size=1) == 1:
-        if string == "cam":
-            wincombo = game.getWinCombo()
-            print(str(wincombo))
-            #client.sendInt(address=addresses['win'], value=wincombo)
 
         """Just a test"""
-        if string == "lmao":
-            print("epiclmao")
+        if string == "s":
+            game.
 
         if string == "check":
             print(str(game.getGamestateXO()))

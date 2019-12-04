@@ -99,7 +99,7 @@ class ModbusClient(object):
         while not done:
             response = self.client.read_holding_registers(address, size=1, unit=1)
 
-            #print(response.registers)
+            print(response.registers)
             if str(response.registers) == str(wantedAnswer):
                 done = True
 
