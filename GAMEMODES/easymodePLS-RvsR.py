@@ -127,20 +127,25 @@ if __name__ == '__main__':
 
                         PLS.sendInt(address=32217, value=1)  # BOOL
                         print("Done sending...\n")
-                        time.sleep(0)
+                        time.sleep(1)
 
 
                     # WHO WON
                     winner = game.getWinner()
+                    wincombo = game.getWinCombo()
+
+
                     if winner == "red":
                         PLS.sendInt(address=32219, value=1)
                     elif winner == "blue":
                         PLS.sendInt(address=32219, value=2)
+                    elif winner == "tie":
+                        PLS.sendInt(address=32219, value=3)
                     elif winner == "none":
                         PLS.sendInt(address=32219, value=0)
 
+
                     # SEND WIN COMBO TO ALEXANDER HAMILTON
-                    wincombo = game.getWinCombo()
                     print(wincombo)
                     PLS.sendInt(address=32220, value=wincombo)
                     time.sleep(1)

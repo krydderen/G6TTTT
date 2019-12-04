@@ -15,8 +15,8 @@ while True:
              roi[55:95, 0:48],
              roi[55:95, 60:105],
              roi[55:95, 120:160],
-             roi[120:155, 0:45],
-             roi[120:155, 60:105],
+             roi[120:145, 0:45],
+             roi[120:150, 60:105],
              roi[120:155, 120:160]]
 
     res = cv2.resize(roi, None, fx=3, fy=3, interpolation=cv2.INTER_CUBIC)

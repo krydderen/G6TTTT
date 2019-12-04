@@ -42,8 +42,8 @@ class GameChecker(object):
                  roi[55:95, 0:48],
                  roi[55:95, 60:105],
                  roi[55:95, 120:160],
-                 roi[120:155, 0:45],
-                 roi[120:155, 60:105],
+                 roi[120:145, 0:45],
+                 roi[120:150, 60:105],
                  roi[120:155, 120:160]]
 
         index = 0
@@ -96,8 +96,8 @@ class GameChecker(object):
                  roi[55:95, 0:48],
                  roi[55:95, 60:105],
                  roi[55:95, 120:160],
-                 roi[120:155, 0:45],
-                 roi[120:155, 60:105],
+                 roi[120:145, 0:45],
+                 roi[120:150, 60:105],
                  roi[120:155, 120:160]]
 
         index = 0
@@ -181,7 +181,6 @@ class GameChecker(object):
         win_combinations = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [6, 3, 0], [7, 4, 1], [8, 5, 2], [6, 4, 2], [8, 4, 0]]
 
         state = self.getGamestateXO()
-
         print(state)
         winner = "none"
         # Check if the current gamestate gives out any winners or a tie.
@@ -191,6 +190,8 @@ class GameChecker(object):
                 winner = "red"
             elif state[comb[0]] == "O" and state[comb[1]] == "O" and state[comb[2]] == "O":
                 winner = "blue"
+            elif "-" not in state:
+                winner = "tie"
         return winner
 
     def cleanBoard(self):
@@ -226,7 +227,6 @@ class GameChecker(object):
 
         print("Is the board clean? " + str(CLEAN))
         return CLEAN
-
 
     def returnRemainingFields(self):
         """Returns the remainder of fields left after
