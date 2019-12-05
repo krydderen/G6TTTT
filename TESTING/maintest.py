@@ -46,8 +46,7 @@ if __name__ == '__main__':
 
         """Just a test"""
         if string == "s":
-            game.
-
+            print("penis")
         if string == "check":
             print(str(game.getGamestateXO()))
 

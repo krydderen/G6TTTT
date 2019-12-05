@@ -40,7 +40,7 @@ if __name__ == '__main__':
     currentWins = [0, 0]
 
     # Sets how many wins one must have to end the game
-    wins = 2
+    wins = 3
 
     # Chooses a random player to start the game
     startplayer = random.randint(0, 1)  # Decides who starts

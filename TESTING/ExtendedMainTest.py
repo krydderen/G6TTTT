@@ -44,7 +44,6 @@ if __name__ == '__main__':
     print("Objects created.")
     print("Client connecting...")
     while client.isConnected():
-
         try:
 
             """This is used for testing when I cannot use our
@@ -67,6 +66,10 @@ if __name__ == '__main__':
             if string == "spam":
                 while 1:
                     client.sendInt(address=32000, value=1)
+
+            if string == "win":
+                win = game.getWinCombo()
+                print(win)
 
 
             """WORKS"""
