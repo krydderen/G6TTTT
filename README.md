@@ -1,6 +1,7 @@
 # Tic-Tac-Toe Algorithm
 
 \\ UNFINISHED README.MD
+\\ For deeper details, the report is found in the repository. 
 
 This project is in the subject Industrial Management Systems at NTNU. The finished result provides a base grade the examinator will use to set the final grade. The following project is about making two UR3 "cobots" work together to play a game of Tic-Tac-Toe. The result of this was the said robots managed to play against each other in "dummy" and "medium" mode, whereas "dummy" was just plain random and "medium" tried to win. Hardcore mode was planned done, but never finished as the algorithm had issues collaborating with our program written the WAGO PLS, where our signals from Python was taken through to ensure no collisions and have a safe play-area. 
 
