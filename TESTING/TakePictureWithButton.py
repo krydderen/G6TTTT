@@ -1,10 +1,11 @@
 import cv2
 import time
 
-filename = 'C:/Users/kevmo/OneDrive/Dokumenter/2019/Haust-semesteret/Python/G6/test_images/' + "test_image" + ".png"
+filename1 = "C:/Users/kevmo/OneDrive/Dokumenter/2019/Haust-semesteret/Python/G6/test_images/" + "test_image" + ".png"
+filename ="C:/Users/kevmo/OneDrive/Dokumenter/2019/Haust-semesteret/Python/G6P/G6TTTT/" + "test" + ".png"
 
 # Open the camera
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
 cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 while True:

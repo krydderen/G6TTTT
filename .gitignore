@@ -2,3 +2,7 @@
 .idea/
 
 venv/
+
+__pycache__/
+
+__pycache__/gamecheckerTESTER.cpython-36.pyc
